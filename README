@@ -1,0 +1,23 @@
+photo-unique
+-----------------
+
+A simple multithread script to create an unique photo library. The script is made up of three components:
+ * Main thread
+ * Indexing thread
+ * Db thread
+
+Main thread
+--------------
+Walk thru a filesystem to find images, then pass their path to one of the indexing threads
+
+
+Indexing threads
+-----------------
+Every indexing thread creates an image perceptual hash and pass it to the Db thread. This job is quite slow, so it's parallelized.
+
+Db thread
+-----------
+Write indexes to the db in the following form: 
+{ hash : path}
+
+It's in a separate thread to avoid locking issues. Only this thread plays with db.
